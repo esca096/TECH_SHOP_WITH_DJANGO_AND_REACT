@@ -14,4 +14,5 @@ urlpatterns = [
     path('callback/', google_login_callback, name='callback'),
     path('api/auth/user/', UserDetailView.as_view(), name='user_detail'),
     path('api/google/validate_token/', validate_google_token, name='validate_google_token'),
+    path('dashboard/', UserDashboardView.as_view(), name='user_dashboard'),
 ]

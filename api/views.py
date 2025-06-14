@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -28,6 +29,26 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
     
+
+
+class UserDashboardView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        
+        #prepare user data
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'is_staff': user.is_staff,
+            'is_active': user.is_active,
+        }
+        
+        return Response (user_data)
+
+
+
 
 @login_required
 def google_login_callback(request):

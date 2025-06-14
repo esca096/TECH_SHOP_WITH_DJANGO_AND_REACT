@@ -32,9 +32,15 @@ function Navbar() {
         </ul>
         <ul className="navbar-menu-right">
             { isAuthorized ? (
-                <li>
-                    <Link onClick={handleLogout} to="/logout" className="button-link">Logout</Link>
-                </li>
+                <>
+                    <li className="dashboard-icon">
+                        <Link to="/dashboard">DB</Link>
+                    </li>
+                    <li>
+                        <Link onClick={handleLogout} to="/logout" className="button-link">Logout</Link>
+                    </li>
+                </>
+
             ) : (
                 <>
                     <li>
