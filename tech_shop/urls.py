@@ -4,6 +4,10 @@ from django.urls import path, include
 from api.views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/register/', UserCreateView.as_view(), name='user_create'),
@@ -15,4 +19,12 @@ urlpatterns = [
     path('api/auth/user/', UserDetailView.as_view(), name='user_detail'),
     path('api/google/validate_token/', validate_google_token, name='validate_google_token'),
     path('dashboard/', UserDashboardView.as_view(), name='user_dashboard'),
+    
+    path('products/', ProductView.as_view(), name='product_list'),
+    path('api/products/', AdminProductView.as_view(), name='admin_product'),
+    path('api/products/<int:pk>/', AdminEditProductView.as_view(), name='admin_product_detail'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

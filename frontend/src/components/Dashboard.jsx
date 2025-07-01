@@ -58,6 +58,9 @@ const Dashboard = () => {
         <div>
             <h3>Admin Features</h3>
             {/* Add more admin features here */}
+            <div className="admin-actions"> 
+                <button onClick={() => window.location.href = "api/products"}>Manage Products</button>
+            </div>
         </div>
     )
 

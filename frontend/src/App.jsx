@@ -7,6 +7,7 @@ import AuthPage from "./pages/AuthPage"
 import { useAuthentication } from "./auth"
 import RedirectGoogleAuth from "./components/GoogleRedirectHandler"
 import Dashboard from "./components/Dashboard"
+import AdminProductList from "./components/AdminProductList"
 
 function App() {
   
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<ProtectedRegister />} />
           <Route path="/dashboard" element={isAuthorized? <Dashboard /> : <Navigate to='/login' />} />
+          <Route path="/api/products" element={<AdminProductList />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>

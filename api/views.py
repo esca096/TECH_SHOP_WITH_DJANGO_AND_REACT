@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serialzers import UserSerializer
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from .serialzers import UserSerializer, ProductSerializer, CartSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from allauth.socialaccount.models import SocialToken, SocialAccount
 from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -11,6 +11,9 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 import json
+
+from .models import Product, Cart
+
 
 
 User = get_user_model()
@@ -46,6 +49,26 @@ class UserDashboardView(generics.GenericAPIView):
         }
         
         return Response (user_data)
+
+
+
+
+class AdminProductView(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+
+class AdminEditProductView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+
+class ProductView(generics.ListAPIView):
+    queryset = Product.objects.all().order_by('id')
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
 
 
 
