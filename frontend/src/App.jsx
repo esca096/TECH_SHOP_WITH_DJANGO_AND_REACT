@@ -8,6 +8,8 @@ import { useAuthentication } from "./auth"
 import RedirectGoogleAuth from "./components/GoogleRedirectHandler"
 import Dashboard from "./components/Dashboard"
 import AdminProductList from "./components/AdminProductList"
+import { ToastContainer } from "react-toastify"
+import AdminProductEdit from "./components/AdminProductEdit"
 
 function App() {
   
@@ -23,12 +25,14 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
+        <ToastContainer /> {/* ToastContainer is used to display toast notifications */}
         <Routes>
           <Route path="/login/callback" element={<RedirectGoogleAuth />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<ProtectedRegister />} />
           <Route path="/dashboard" element={isAuthorized? <Dashboard /> : <Navigate to='/login' />} />
           <Route path="/api/products" element={<AdminProductList />} />
+          <Route path="/api/products/:id" element={<AdminProductEdit />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>

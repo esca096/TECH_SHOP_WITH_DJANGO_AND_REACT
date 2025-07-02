@@ -18,13 +18,15 @@ const AdminProductList = () => {
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem(ACCESS_TOKEN);
+                console.log('Access Token Available:', token); // Log the access token for debugging
                 if (!token) {
                     throw new Error('No access token found');
                 }
                 const res = await api.get('/api/products/', {
                     headers: { Authorization: `Bearer ${token}` },
                 })
-                setProducts(res.data.resuslt || []); // Access the results array from products API
+                console.log('Fetched products:', res.data); // Log the fetched products for debugging
+                setProducts(res.data || []); // Access the results array from products API
             } catch (error) {
                 console.error('Error getting products:', error);
                 setError(error);
