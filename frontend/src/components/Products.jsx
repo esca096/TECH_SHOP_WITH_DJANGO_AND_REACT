@@ -3,11 +3,18 @@ import api from '../api';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import '../styles/Products.css';
+import { useCart } from './CartContext';
+import { useAuthentication } from '../auth'; 
+import { useNavigate } from 'react-router-dom';
 
 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
+    const { addToCart } = useCart();
+    const { isAuthorized } = useAuthentication();
+    const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -26,6 +33,27 @@ const Products = () => {
        fetchProducts();
 
     }, []);
+
+    // Function to handle adding a product to the cart
+    const handleAddToCart = (product) => {
+        if (!isAuthorized) {
+            navigate('/login'); // Redirect to login page if not authorized
+        } else {
+            const item = { ...product, quantity: 1 }; // default to 1 item
+            addToCart(item);
+
+            // Show success notification
+            toast.success(`${product.name} added to cart!`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
 
     if (error) {
         return <p>{error}</p>;
@@ -46,7 +74,7 @@ const Products = () => {
                             <h3>{product.name}</h3>
                             <p>{product.description}</p>
                             <p><strong>Price:</strong> ${product.price}</p>
-                            <button className="add-to-cart-button">
+                            <button onClick={() => handleAddToCart(product)} className="add-to-cart-button">
                                 Add to Cart
                             </button>
                         </div>

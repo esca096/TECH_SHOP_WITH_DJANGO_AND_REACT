@@ -71,6 +71,21 @@ class ProductView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
 
+class CartView(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CartSerializer
+    
+    def get_object(self):
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        return cart
+    
+    def put(self, request, *args, **kwargs):
+        cart = self.get_object()
+        cart.items = request.data.get('items', [])
+        cart.save()
+        return Response({'success': True, 'items': cart.items})
+
+
 
 
 @login_required

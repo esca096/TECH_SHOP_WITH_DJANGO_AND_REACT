@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard"
 import AdminProductList from "./components/AdminProductList"
 import { ToastContainer } from "react-toastify"
 import AdminProductEdit from "./components/AdminProductEdit"
+import Cart from "./components/Cart"
 
 function App() {
   
@@ -33,6 +34,7 @@ function App() {
           <Route path="/dashboard" element={isAuthorized? <Dashboard /> : <Navigate to='/login' />} />
           <Route path="/api/products" element={<AdminProductList />} />
           <Route path="/api/products/:id" element={<AdminProductEdit />} />
+          <Route path="/cart" element={isAuthorized? <Cart /> : <Navigate to='/login' />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
